@@ -9,20 +9,9 @@ import java.util.regex.Pattern;
  * Extracts categories from a wiki article.
  *
  * Dependencies: none.
+ * Result: collection of categories that a wiki page belongs to.
  */
-public class CategoryExtractor implements Analysis {
-
-    /**
-     * Result of a CategoryExtractor analysis.
-     */
-    public class Result {
-
-        /**
-         * Collection of categories that a wiki page belongs to.
-         */
-        public Collection<String> categories;
-
-    }
+public class CategoryExtractor implements Analysis<Collection<String>> {
 
     private static CategoryExtractor instance = null;
 
@@ -40,24 +29,13 @@ public class CategoryExtractor implements Analysis {
     }
 
     @Override
-    public Class<Result> resultClass() {
-        return Result.class;
-    }
-
-    @Override
-    public Analysis[] dependencies() {
-        return new Analysis[] {};
-    }
-
-    @Override
-    public Result process(Article article) {
-        Result r = new Result();
-        r.categories = new ArrayList<>();
+    public Collection<String> process(Article article) {
+        ArrayList<String> categories = new ArrayList<>();
         Matcher matcher = pattern.matcher(article.getText());
         while (matcher.find()) {
-            r.categories.add(matcher.group(1));
+            categories.add(matcher.group(1));
         }
-        return r;
+        return categories;
     }
 
 }

@@ -1,23 +1,14 @@
 package wiki;
 
+import java.util.Collection;
+
 /**
  * Decides if an article is about a person.
  *
- * Dependencies: CategoryExtractor, PersondataExtractor.
+ * Dependencies: CategoryExtractor, PersondataExtractor. 
+ * Result: whether the article is about a person.
  */
-public class PersonClassifier implements Analysis {
-
-    /**
-     * Result of a PersonClassifier analysis.
-     */
-    public class Result {
-
-        /**
-         * Whether this article is about a person.
-         */
-        public boolean isPerson;
-
-    }
+public class PersonClassifier implements Analysis<Boolean> {
 
     private static PersonClassifier instance = null;
 
@@ -32,36 +23,25 @@ public class PersonClassifier implements Analysis {
     }
 
     @Override
-    public Class<Result> resultClass() {
-        return Result.class;
-    }
+    public Boolean process(Article article) {
+        boolean isPerson = false;
 
-    @Override
-    public Analysis[] dependencies() {
-        return new Analysis[] {CategoryExtractor.getInstance(),
-            PersondataExtractor.getInstance()};
-    }
-
-    @Override
-    public Result process(Article article) {
-        Result r = new Result();
-        r.isPerson = false;
-
-        CategoryExtractor.Result cer = article.getAnalysisResult(
-            CategoryExtractor.Result.class);
-        for (String category : cer.categories) {
+        Collection<String> categories = article.getAnalysisResult(
+            CategoryExtractor.getInstance());
+        for (String category : categories) {
             if (category.contains("birth")) {
-                r.isPerson = true;
+                isPerson = true;
                 break;
             }
         }
 
-        PersondataExtractor.Result per = article.getAnalysisResult(
-            PersondataExtractor.Result.class);
-        if (per.hasPersondata)
-            r.isPerson = true;
+        Boolean hasPersondata = article.getAnalysisResult(PersondataExtractor.
+            getInstance());
+        if (hasPersondata) {
+            isPerson = true;
+        }
 
-        return r;
+        return isPerson;
     }
 
 }

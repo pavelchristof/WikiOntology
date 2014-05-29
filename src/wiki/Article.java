@@ -1,14 +1,15 @@
 package wiki;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class Article {
 
     public Article(String title, String text) {
         this.title = title;
         this.text = text;
-        analysisResults = new TreeMap<>();
+        analysisResults = new HashMap<>();
+        runningAnalyses = new HashSet<>();
     }
 
     public String getTitle() {
@@ -18,17 +19,28 @@ public class Article {
     public String getText() {
         return text;
     }
+    
+    public <R> R getAnalysisResult(Analysis<R> analysis) {
+        // Was the analysis run before?    
+        if (!analysisResults.containsKey(analysis)) {
+            // First check for circular dependencies.
+            if (runningAnalyses.contains(analysis)) {
+                throw new CircularDependenciesException();
+            }
 
-    public <T> T getAnalysisResult(Class<T> resultClass) {
-        return (T) analysisResults.get(resultClass);
-    }
+            // Run the analysis and store its result.
+            runningAnalyses.add(analysis);
+            R result = analysis.process(this);
+            analysisResults.put(analysis, result);
+            runningAnalyses.remove(analysis);
+        }
 
-    public <T> void setAnalysisResult(Class<T> resultClass, T result) {
-        analysisResults.put(resultClass, result);
+        return (R) analysisResults.get(analysis);
     }
 
     private final String title;
     private final String text;
-    private final Map<Class, Object> analysisResults;
+    private final HashMap<Analysis<?>, Object> analysisResults;
+    private final HashSet<Analysis<?>> runningAnalyses;
 
 }
