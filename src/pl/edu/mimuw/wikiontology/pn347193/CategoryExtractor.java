@@ -1,4 +1,4 @@
-package wiki;
+package pl.edu.mimuw.wikiontology.pn347193;
 
 import java.util.ArrayList;
 import java.util.Collection;

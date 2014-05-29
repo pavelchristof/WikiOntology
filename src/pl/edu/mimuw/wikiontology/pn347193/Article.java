@@ -1,9 +1,20 @@
-package wiki;
+package pl.edu.mimuw.wikiontology.pn347193;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * A wiki article.
+ *
+ * This class is used during importing. It contains all information about an
+ * article, including its text and all analysis results.
+ */
 public class Article {
+
+    private final String title;
+    private final String text;
+    private final HashMap<Analysis<?>, Object> analysisResults;
+    private final HashSet<Analysis<?>> runningAnalyses;
 
     public Article(String title, String text) {
         this.title = title;
@@ -19,7 +30,14 @@ public class Article {
     public String getText() {
         return text;
     }
-    
+
+    /**
+     * Runs the analysis if it was not run before and returns its result.
+     *
+     * @param <R> result type.
+     * @param analysis the analysis.
+     * @return the analysis result.
+     */
     public <R> R getAnalysisResult(Analysis<R> analysis) {
         // Was the analysis run before?    
         if (!analysisResults.containsKey(analysis)) {
@@ -37,10 +55,5 @@ public class Article {
 
         return (R) analysisResults.get(analysis);
     }
-
-    private final String title;
-    private final String text;
-    private final HashMap<Analysis<?>, Object> analysisResults;
-    private final HashSet<Analysis<?>> runningAnalyses;
 
 }

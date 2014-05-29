@@ -1,4 +1,4 @@
-package wiki;
+package pl.edu.mimuw.wikiontology.pn347193;
 
 /**
  * Thrown if analysis graph contains circular dependencies.

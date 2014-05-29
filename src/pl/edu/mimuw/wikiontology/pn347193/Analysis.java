@@ -1,9 +1,10 @@
-package wiki;
+package pl.edu.mimuw.wikiontology.pn347193;
 
 /**
  * An analysis that can process an article and produce a result.
- * 
  * One analysis can depend on others (and use their results).
+ * 
+ * @param <R> Result type.
  */
 public interface Analysis<R> {
 

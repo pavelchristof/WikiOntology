@@ -1,4 +1,4 @@
-package wiki;
+package pl.edu.mimuw.wikiontology.pn347193;
 
 import java.util.Collection;
 
@@ -24,24 +24,17 @@ public class PersonClassifier implements Analysis<Boolean> {
 
     @Override
     public Boolean process(Article article) {
-        boolean isPerson = false;
-
         Collection<String> categories = article.getAnalysisResult(
             CategoryExtractor.getInstance());
         for (String category : categories) {
             if (category.contains("birth")) {
-                isPerson = true;
-                break;
+                return true;
             }
         }
 
         Boolean hasPersondata = article.getAnalysisResult(PersondataExtractor.
             getInstance());
-        if (hasPersondata) {
-            isPerson = true;
-        }
-
-        return isPerson;
+        return hasPersondata;
     }
 
 }
