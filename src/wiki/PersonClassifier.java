@@ -32,7 +32,7 @@ public class PersonClassifier implements Analysis {
     }
 
     @Override
-    public Class resultClass() {
+    public Class<Result> resultClass() {
         return Result.class;
     }
 
@@ -48,13 +48,18 @@ public class PersonClassifier implements Analysis {
         r.isPerson = false;
 
         CategoryExtractor.Result cer = article.getAnalysisResult(
-            CategoryExtractor.getInstance().resultClass());
+            CategoryExtractor.Result.class);
         for (String category : cer.categories) {
             if (category.contains("birth")) {
                 r.isPerson = true;
                 break;
             }
         }
+
+        PersondataExtractor.Result per = article.getAnalysisResult(
+            PersondataExtractor.Result.class);
+        if (per.hasPersondata)
+            r.isPerson = true;
 
         return r;
     }

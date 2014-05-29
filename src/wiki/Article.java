@@ -19,16 +19,16 @@ public class Article {
         return text;
     }
 
-    public <T> T getAnalysisResult(Class<T> dataClass) {
-        return (T) analysisResults.get(dataClass);
+    public <T> T getAnalysisResult(Class<T> resultClass) {
+        return (T) analysisResults.get(resultClass);
     }
 
-    public <T> void setAnalysisResult(Class<T> dataClass, T data) {
-        analysisResults.put(dataClass, data);
+    public <T> void setAnalysisResult(Class<T> resultClass, T result) {
+        analysisResults.put(resultClass, result);
     }
 
-    private String title;
-    private String text;
-    private Map<Class, Object> analysisResults;
+    private final String title;
+    private final String text;
+    private final Map<Class, Object> analysisResults;
 
 }
