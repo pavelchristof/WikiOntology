@@ -10,8 +10,14 @@ import java.util.regex.Pattern;
  */
 public class PersondataExtractor implements Analysis<Boolean> {
 
-    private static PersondataExtractor instance = null;
+    /**
+     * Singleton reference of PersondataExtractor.
+     */
+    private static PersondataExtractor instance;
 
+    /**
+     * @return Singleton instance of PersondataExtractor.
+     */
     public static PersondataExtractor getInstance() {
         if (instance == null) {
             instance = new PersondataExtractor();

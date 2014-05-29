@@ -13,7 +13,7 @@ public class Ontology {
     private final String title;
     private final HashMap<Analysis<?>, Object> analysisResults;
 
-    public Ontology(String title,
+    Ontology(String title,
         HashMap<Analysis<?>, Object> analysisResults) {
         this.title = title;
         this.analysisResults = analysisResults;
@@ -31,6 +31,10 @@ public class Ontology {
      * @return the result.
      */
     public <R> R getAnalysisResult(Analysis<R> analysis) {
+        if (!analysisResults.containsKey(analysis)) {
+            throw new AnalysisResultNotFoundException();
+        }
+ 
         return (R) analysisResults.get(analysis);
     }
 

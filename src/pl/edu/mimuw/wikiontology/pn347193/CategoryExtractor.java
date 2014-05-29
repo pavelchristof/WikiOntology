@@ -12,16 +12,22 @@ import java.util.regex.Pattern;
  * Result: collection of categories that a wiki page belongs to.
  */
 public class CategoryExtractor implements Analysis<Collection<String>> {
+    
+    /**
+     * Singleton reference of CategoryExtractor.
+     */
+    private static CategoryExtractor instance;
 
-    private static CategoryExtractor instance = null;
-
+    /**
+     * @return Singleton instance of CategoryExtractor.
+     */
     public static CategoryExtractor getInstance() {
         if (instance == null) {
             instance = new CategoryExtractor();
         }
         return instance;
     }
-
+    
     private final Pattern pattern;
 
     protected CategoryExtractor() {

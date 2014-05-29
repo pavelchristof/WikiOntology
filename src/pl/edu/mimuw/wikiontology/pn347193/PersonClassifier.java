@@ -5,20 +5,26 @@ import java.util.Collection;
 /**
  * Decides if an article is about a person.
  *
- * Dependencies: CategoryExtractor, PersondataExtractor. 
+ * Dependencies: CategoryExtractor, PersondataExtractor.
  * Result: whether the article is about a person.
  */
 public class PersonClassifier implements Analysis<Boolean> {
 
-    private static PersonClassifier instance = null;
+    /**
+     * Singleton reference of PersonClassifier.
+     */
+    private static PersonClassifier instance;
 
+    /**
+     * @return Singleton instance of PersonClassifier.
+     */
     public static PersonClassifier getInstance() {
         if (instance == null) {
             instance = new PersonClassifier();
         }
         return instance;
     }
-
+    
     protected PersonClassifier() {
     }
 
