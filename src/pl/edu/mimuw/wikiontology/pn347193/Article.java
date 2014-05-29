@@ -1,5 +1,6 @@
 package pl.edu.mimuw.wikiontology.pn347193;
 
+import pl.edu.mimuw.wikiontology.pn347193.analysis.Analysis;
 import java.util.HashMap;
 import java.util.HashSet;
 

@@ -1,4 +1,6 @@
-package pl.edu.mimuw.wikiontology.pn347193;
+package pl.edu.mimuw.wikiontology.pn347193.analysis;
+
+import pl.edu.mimuw.wikiontology.pn347193.Article;
 
 /**
  * An analysis that can process an article and produce a result.

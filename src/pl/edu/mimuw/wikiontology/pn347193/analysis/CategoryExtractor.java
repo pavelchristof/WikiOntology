@@ -1,9 +1,10 @@
-package pl.edu.mimuw.wikiontology.pn347193;
+package pl.edu.mimuw.wikiontology.pn347193.analysis;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import pl.edu.mimuw.wikiontology.pn347193.Article;
 
 /**
  * Extracts categories from a wiki article.

@@ -1,6 +1,7 @@
-package pl.edu.mimuw.wikiontology.pn347193;
+package pl.edu.mimuw.wikiontology.pn347193.analysis;
 
 import java.util.regex.Pattern;
+import pl.edu.mimuw.wikiontology.pn347193.Article;
 
 /**
  * Extracts Persondata metadata from a wiki article.

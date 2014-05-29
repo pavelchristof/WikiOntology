@@ -1,7 +1,12 @@
-package pl.edu.mimuw.wikiontology.pn347193;
+package pl.edu.mimuw.wikiontology.pn347193.filters;
+
+import pl.edu.mimuw.wikiontology.pn347193.Article;
+import pl.edu.mimuw.wikiontology.pn347193.analysis.PersonClassifier;
 
 /**
  * Filters out non-persons.
+ * 
+ * Dependencies: PersonClassifier.
  */
 public class PersonFilter implements ArticleFilter {
 

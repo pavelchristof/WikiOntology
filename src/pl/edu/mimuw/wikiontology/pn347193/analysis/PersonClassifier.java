@@ -1,6 +1,7 @@
-package pl.edu.mimuw.wikiontology.pn347193;
+package pl.edu.mimuw.wikiontology.pn347193.analysis;
 
 import java.util.Collection;
+import pl.edu.mimuw.wikiontology.pn347193.Article;
 
 /**
  * Decides if an article is about a person.
