@@ -15,11 +15,13 @@ public class OntologyCollectionBuilder implements ArticleConsumer {
     private final HashSet<Analysis<?>> analyses;
     private final HashSet<ArticleFilter> filters;
     private final ArrayList<Ontology> ontologies;
+    private ArticleConsumer filteredArticleConsumer;
 
     public OntologyCollectionBuilder() {
         analyses = new HashSet<>();
         filters = new HashSet<>();
         ontologies = new ArrayList<>();
+        filteredArticleConsumer = null;
     }
     
     public void addAnalysis(Analysis<?> analysis) {
@@ -38,11 +40,23 @@ public class OntologyCollectionBuilder implements ArticleConsumer {
         filters.remove(filter);
     }
 
+    public ArticleConsumer getFilteredArticleConsumer() {
+        return filteredArticleConsumer;
+    }
+
+    public void setFilteredArticleConsumer(
+        ArticleConsumer filteredArticleConsumer) {
+        this.filteredArticleConsumer = filteredArticleConsumer;
+    }
+
     @Override
     public void accept(Article article) {
         // First filter the article.
         for (ArticleFilter f : filters) {
             if (f.filter(article)) {
+                if (filteredArticleConsumer != null) {
+                    filteredArticleConsumer.accept(article);
+                }
                 return;
             }
         }

@@ -1,19 +1,17 @@
 package pl.edu.mimuw.wikiontology.pn347193.analysis;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashSet;
+import java.util.Set;
 import pl.edu.mimuw.wikiontology.pn347193.Article;
 
 /**
  * Extracts categories from a wiki article.
  *
- * Dependencies: none.
- * Result: collection of categories that a wiki page belongs to.
+ * Dependencies: LinkExtractor. 
+ * Result: set of categories that a wiki page belongs to.
  */
-public class CategoryExtractor implements Analysis<Collection<String>> {
-    
+public class CategoryExtractor implements Analysis<Set<String>> {
+
     /**
      * Singleton reference of CategoryExtractor.
      */
@@ -28,19 +26,19 @@ public class CategoryExtractor implements Analysis<Collection<String>> {
         }
         return instance;
     }
-    
-    private final Pattern pattern;
 
     protected CategoryExtractor() {
-        pattern = Pattern.compile("\\[\\[Category:([^\\]]*)\\]\\]");
     }
 
     @Override
-    public Collection<String> process(Article article) {
-        ArrayList<String> categories = new ArrayList<>();
-        Matcher matcher = pattern.matcher(article.getText());
-        while (matcher.find()) {
-            categories.add(matcher.group(1));
+    public Set<String> process(Article article) {
+        HashSet<String> categories = new HashSet<>();
+        Set<String> links = article.getAnalysisResult(LinkExtractor.
+            getInstance());
+        for (String link : links) {
+            if (link.startsWith("Category:")) {
+                categories.add(link.substring("Category:".length()));
+            }
         }
         return categories;
     }
