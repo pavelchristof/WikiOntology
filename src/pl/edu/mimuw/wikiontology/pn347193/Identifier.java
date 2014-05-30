@@ -11,6 +11,8 @@ public final class Identifier implements Comparable<Identifier> {
     public static final Identifier PHYSICIST = new Identifier("Physicist");
     public static final Identifier PERSONDATA = new Identifier(
         "Wikipedia:Persondata");
+    public static final Identifier TEMPLATES = new Identifier(
+        "Wikipedia:Templates");
 
     private final String normalized;
     private final String lowerCase;

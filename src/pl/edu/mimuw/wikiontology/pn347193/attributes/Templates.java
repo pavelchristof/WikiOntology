@@ -2,6 +2,7 @@ package pl.edu.mimuw.wikiontology.pn347193.attributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import pl.edu.mimuw.wikiontology.pn347193.Identifier;
 
 public class Templates implements Attribute<List<String>> {
 
@@ -24,7 +25,12 @@ public class Templates implements Attribute<List<String>> {
     }
 
     @Override
-    public List<String> defaultValue() {
+    public Identifier getIdentifier() {
+        return Identifier.TEMPLATES;
+    }
+
+    @Override
+    public List<String> getDefaultValue() {
         return new ArrayList<>();
     }
 

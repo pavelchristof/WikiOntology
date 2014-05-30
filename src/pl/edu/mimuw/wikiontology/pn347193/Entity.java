@@ -89,7 +89,7 @@ public class Entity {
      */
     public <T> T getAttribute(Attribute<T> attribute) {
         if (!attributes.containsKey(attribute)) {
-            return attribute.defaultValue();
+            return attribute.getDefaultValue();
         }
 
         return (T) attributes.get(attribute);
