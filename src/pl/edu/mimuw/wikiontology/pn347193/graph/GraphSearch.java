@@ -38,14 +38,14 @@ class GraphSearch {
     }
 
     public List<Entity> rebuildPath(Entity endingVertex) {
+        List<Entity> path = new ArrayList<>();
+        
         // If the vertex hasn't been visited then there is no path.
         if (!isVisited(endingVertex))
-            return null;
+            return path;
     
         // Construct the path backwards.
-        List<Entity> path = new ArrayList<>();
         Entity vertex = endingVertex;
-        
         while (vertex != null) {
             path.add(vertex);
             vertex = predecessors.get(vertex);

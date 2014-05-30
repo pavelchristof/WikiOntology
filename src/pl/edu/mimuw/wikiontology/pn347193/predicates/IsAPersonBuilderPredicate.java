@@ -8,7 +8,7 @@ import pl.edu.mimuw.wikiontology.pn347193.relations.IsA;
 /**
  * Checks if an entity is a person.
  */
-public class IsAPersonBuilderPredicate implements BuilderPredicate {
+public class IsAPersonBuilderPredicate implements Predicate<EntityBuilder> {
 
     @Override
     public boolean test(EntityBuilder builder) {

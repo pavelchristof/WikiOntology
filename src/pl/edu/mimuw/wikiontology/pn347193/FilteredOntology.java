@@ -2,7 +2,7 @@ package pl.edu.mimuw.wikiontology.pn347193;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import pl.edu.mimuw.wikiontology.pn347193.predicates.EntityPredicate;
+import pl.edu.mimuw.wikiontology.pn347193.predicates.Predicate;
 
 /**
  * An ontology decorator that filters entities.
@@ -10,7 +10,7 @@ import pl.edu.mimuw.wikiontology.pn347193.predicates.EntityPredicate;
 public class FilteredOntology implements ReadableOntology {
 
     private final Ontology ontology;
-    private final EntityPredicate filter;
+    private final Predicate<Entity> filter;
 
     /**
      * Creates a new filtered ontology.
@@ -19,7 +19,7 @@ public class FilteredOntology implements ReadableOntology {
      * @param filter a predicate that returns true if an entity should be NOT
      * filtered out
      */
-    public FilteredOntology(Ontology ontology, EntityPredicate filter) {
+    public FilteredOntology(Ontology ontology, Predicate<Entity> filter) {
         this.ontology = ontology;
         this.filter = filter;
     }

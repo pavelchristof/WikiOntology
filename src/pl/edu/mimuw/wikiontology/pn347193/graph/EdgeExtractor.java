@@ -2,7 +2,7 @@ package pl.edu.mimuw.wikiontology.pn347193.graph;
 
 import java.util.HashSet;
 import pl.edu.mimuw.wikiontology.pn347193.Entity;
-import pl.edu.mimuw.wikiontology.pn347193.Ontology;
+import pl.edu.mimuw.wikiontology.pn347193.ReadableOntology;
 
 public interface EdgeExtractor {
 
@@ -13,6 +13,6 @@ public interface EdgeExtractor {
      * @param vertex the vertex (that is, the entity)
      * @return a hash set of entities representing vertices.
      */
-    HashSet<Entity> extract(Ontology ontology, Entity vertex);
+    HashSet<Entity> extract(ReadableOntology ontology, Entity vertex);
 
 }

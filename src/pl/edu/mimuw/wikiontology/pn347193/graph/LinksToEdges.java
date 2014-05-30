@@ -2,7 +2,7 @@ package pl.edu.mimuw.wikiontology.pn347193.graph;
 
 import java.util.HashSet;
 import pl.edu.mimuw.wikiontology.pn347193.Entity;
-import pl.edu.mimuw.wikiontology.pn347193.Ontology;
+import pl.edu.mimuw.wikiontology.pn347193.ReadableOntology;
 import pl.edu.mimuw.wikiontology.pn347193.relations.LinksTo;
 
 /**
@@ -11,7 +11,7 @@ import pl.edu.mimuw.wikiontology.pn347193.relations.LinksTo;
 public class LinksToEdges implements EdgeExtractor {
 
     @Override
-    public HashSet<Entity> extract(Ontology ontology, Entity vertex) {
+    public HashSet<Entity> extract(ReadableOntology ontology, Entity vertex) {
         HashSet<Entity> entities = new HashSet<>();
         
         for (LinksTo link : vertex.getRelationsOfClass(LinksTo.class)) {

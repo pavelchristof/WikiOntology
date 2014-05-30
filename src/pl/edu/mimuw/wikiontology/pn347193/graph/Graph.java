@@ -6,10 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
 import pl.edu.mimuw.wikiontology.pn347193.Entity;
-import pl.edu.mimuw.wikiontology.pn347193.Ontology;
+import pl.edu.mimuw.wikiontology.pn347193.ReadableOntology;
 
 public class Graph {
 
+    private final ReadableOntology ontology;
     private final Entity[] vertices;
     private final HashMap<Entity, Collection<Entity>> edges;
 
@@ -19,22 +20,28 @@ public class Graph {
      * @param ontology the ontology
      * @param edgeExtractor the edge extractor
      */
-    public Graph(Ontology ontology, EdgeExtractor edgeExtractor) {
+    public Graph(ReadableOntology ontology, EdgeExtractor edgeExtractor) {
         Collection<Entity> entities = ontology.getEntities();
-        vertices = entities.toArray(new Entity[entities.size()]);
-        edges = new HashMap<>();
+        this.ontology = ontology;
+        this.vertices = entities.toArray(new Entity[entities.size()]);
+        this.edges = new HashMap<>();
 
         for (Entity vertex : vertices) {
-            edges.put(vertex, edgeExtractor.extract(ontology, vertex));
+            this.edges.put(vertex, edgeExtractor.extract(ontology, vertex));
         }
     }
 
+    public ReadableOntology getOntology() {
+        return ontology;
+    }
+    
     /**
      * Finds a shortest path between two vertices.
      *
      * @param from the starting vertex
      * @param to the ending vertex
-     * @return a list of all vertices on the path or null if there is no path.
+     * @return a list of all vertices on the path or an empty list if there is
+     * no path.
      */
     public List<Entity> shortestPath(Entity from, Entity to) {
         // Perform BFS saving predecessors.
@@ -48,11 +55,6 @@ public class Graph {
             // End if we find the destination.
             if (vertex == to) {
                 break;
-            }
-
-            // Skip the vertex if we visited it before.
-            if (search.isVisited(vertex)) {
-                continue;
             }
 
             // Visit all unvisited neighbours.

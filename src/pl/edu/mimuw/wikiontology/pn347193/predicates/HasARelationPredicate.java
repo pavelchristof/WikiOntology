@@ -3,7 +3,7 @@ package pl.edu.mimuw.wikiontology.pn347193.predicates;
 import pl.edu.mimuw.wikiontology.pn347193.Entity;
 import pl.edu.mimuw.wikiontology.pn347193.relations.Relation;
 
-public class HasARelationPredicate implements EntityPredicate {
+public class HasARelationPredicate implements Predicate<Entity> {
 
     private final Relation relation;
 

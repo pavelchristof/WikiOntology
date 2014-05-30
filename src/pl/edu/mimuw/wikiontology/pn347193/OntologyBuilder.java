@@ -1,8 +1,8 @@
 package pl.edu.mimuw.wikiontology.pn347193;
 
-import pl.edu.mimuw.wikiontology.pn347193.predicates.BuilderPredicate;
 import pl.edu.mimuw.wikiontology.pn347193.analysis.Analysis;
 import java.util.HashSet;
+import pl.edu.mimuw.wikiontology.pn347193.predicates.Predicate;
 
 /**
  * Builds an ontology from a collection of articles.
@@ -10,7 +10,7 @@ import java.util.HashSet;
 public class OntologyBuilder implements ArticleConsumer {
 
     private final HashSet<Analysis> analyses;
-    private final HashSet<BuilderPredicate> filters;
+    private final HashSet<Predicate<EntityBuilder>> filters;
     private final Ontology ontology;
     private ArticleConsumer filteredArticleConsumer;
 
@@ -35,11 +35,11 @@ public class OntologyBuilder implements ArticleConsumer {
      * @param filter a predicate that returns true if an article should be
      * loaded.
      */
-    public void addFilter(BuilderPredicate filter) {
+    public void addFilter(Predicate<EntityBuilder> filter) {
         filters.add(filter);
     }
 
-    public void removeFilter(BuilderPredicate filter) {
+    public void removeFilter(Predicate<EntityBuilder> filter) {
         filters.remove(filter);
     }
 
@@ -57,7 +57,7 @@ public class OntologyBuilder implements ArticleConsumer {
         EntityBuilder builder = new EntityBuilder(article);
 
         // First filter the article.
-        for (BuilderPredicate f : filters) {
+        for (Predicate<EntityBuilder> f : filters) {
             if (!f.test(builder)) {
                 if (filteredArticleConsumer != null) {
                     filteredArticleConsumer.accept(article);
