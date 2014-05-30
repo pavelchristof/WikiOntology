@@ -25,7 +25,7 @@ public class Graph {
         edges = new HashMap<>();
 
         for (Entity vertex : vertices) {
-            edges.put(vertex, edgeExtractor.extract(vertex));
+            edges.put(vertex, edgeExtractor.extract(ontology, vertex));
         }
     }
 
