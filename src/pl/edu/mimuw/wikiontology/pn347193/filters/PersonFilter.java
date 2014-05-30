@@ -7,8 +7,6 @@ import pl.edu.mimuw.wikiontology.pn347193.relations.IsA;
 
 /**
  * Filters out non-persons.
- *
- * Dependencies: PersonClassifier.
  */
 public class PersonFilter implements ArticleFilter {
 

@@ -2,7 +2,6 @@ package pl.edu.mimuw.wikiontology.pn347193;
 
 import pl.edu.mimuw.wikiontology.pn347193.filters.ArticleFilter;
 import pl.edu.mimuw.wikiontology.pn347193.analysis.Analysis;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -12,13 +11,13 @@ public class OntologyBuilder implements ArticleConsumer {
     
     private final HashSet<Analysis> analyses;
     private final HashSet<ArticleFilter> filters;
-    private final ArrayList<Entity> entities;
+    private final Ontology ontology;
     private ArticleConsumer filteredArticleConsumer;
 
     public OntologyBuilder() {
         analyses = new HashSet<>();
         filters = new HashSet<>();
-        entities = new ArrayList<>();
+        ontology = new Ontology();
         filteredArticleConsumer = null;
     }
     
@@ -67,11 +66,11 @@ public class OntologyBuilder implements ArticleConsumer {
         }
 
         // The entity is ready.
-        entities.add(builder.getEntity());
+        ontology.addEntity(builder.getEntity());
     }
     
-    public ArrayList<Entity> build() {
-        return entities;
+    public Ontology getOntology() {
+        return ontology;
     }
    
 }

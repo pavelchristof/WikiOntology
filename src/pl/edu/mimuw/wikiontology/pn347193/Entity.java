@@ -8,7 +8,8 @@ import pl.edu.mimuw.wikiontology.pn347193.relations.Relation;
 /**
  * An entity created from a wiki article.
  *
- * An entity contains its identifier and relations to other entities.
+ * An entity contains its identifier, attributes and relations to other
+ * entities.
  */
 public class Entity {
 
