@@ -3,7 +3,7 @@ package pl.edu.mimuw.wikiontology.pn347193;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class Ontology {
+public class Ontology implements ReadableOntology {
 
     private final HashMap<Identifier, Entity> entities;
 
@@ -15,11 +15,34 @@ public class Ontology {
     }
 
     /**
+     * Checks if the ontology contains an entity.
+     *
+     * @param entity the entity
+     * @return whether the ontology contains the entity
+     */
+    @Override
+    public boolean containsEntity(Entity entity) {
+        return entities.containsKey(entity.getIdentifier());
+    }
+
+    /**
+     * Checks if the ontology contains an entity.
+     *
+     * @param identifier the entity identifier
+     * @return whether the ontology contains the entity
+     */
+    @Override
+    public boolean containsEntity(Identifier identifier) {
+        return entities.containsKey(identifier);
+    }
+
+    /**
      * Gets an entity.
      *
      * @param identifier the entity identifier
      * @return the entity
      */
+    @Override
     public Entity getEntity(Identifier identifier) {
         return entities.get(identifier);
     }
@@ -57,6 +80,7 @@ public class Ontology {
     /**
      * @return a collection of entities in this ontology.
      */
+    @Override
     public Collection<Entity> getEntities() {
         return entities.values();
     }
@@ -64,6 +88,7 @@ public class Ontology {
     /**
      * @return the number of entities.
      */
+    @Override
     public int entityCount() {
         return entities.size();
     }

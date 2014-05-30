@@ -1,6 +1,6 @@
 package pl.edu.mimuw.wikiontology.pn347193;
 
-import pl.edu.mimuw.wikiontology.pn347193.filters.ArticleFilter;
+import pl.edu.mimuw.wikiontology.pn347193.predicates.BuilderPredicate;
 import pl.edu.mimuw.wikiontology.pn347193.analysis.Analysis;
 import java.util.HashSet;
 
@@ -8,9 +8,9 @@ import java.util.HashSet;
  * Builds an ontology from a collection of articles.
  */
 public class OntologyBuilder implements ArticleConsumer {
-    
+
     private final HashSet<Analysis> analyses;
-    private final HashSet<ArticleFilter> filters;
+    private final HashSet<BuilderPredicate> filters;
     private final Ontology ontology;
     private ArticleConsumer filteredArticleConsumer;
 
@@ -20,20 +20,26 @@ public class OntologyBuilder implements ArticleConsumer {
         ontology = new Ontology();
         filteredArticleConsumer = null;
     }
-    
+
     public void addAnalysis(Analysis analysis) {
         analyses.add(analysis);
     }
-    
+
     public void removeAnalysis(Analysis analysis) {
         analyses.remove(analysis);
     }
-    
-    public void addFilter(ArticleFilter filter) {
+
+    /**
+     * Adds a filter that can prevent entities being build.
+     *
+     * @param filter a predicate that returns true if an article should be
+     * loaded.
+     */
+    public void addFilter(BuilderPredicate filter) {
         filters.add(filter);
     }
-    
-    public void removeFilter(ArticleFilter filter) {
+
+    public void removeFilter(BuilderPredicate filter) {
         filters.remove(filter);
     }
 
@@ -49,17 +55,17 @@ public class OntologyBuilder implements ArticleConsumer {
     @Override
     public void accept(Article article) {
         EntityBuilder builder = new EntityBuilder(article);
-        
+
         // First filter the article.
-        for (ArticleFilter f : filters) {
-            if (f.filter(builder)) {
+        for (BuilderPredicate f : filters) {
+            if (!f.test(builder)) {
                 if (filteredArticleConsumer != null) {
                     filteredArticleConsumer.accept(article);
                 }
                 return;
             }
         }
-        
+
         // Require all analyses.
         for (Analysis analysis : analyses) {
             builder.requireAnalysis(analysis);
@@ -68,9 +74,9 @@ public class OntologyBuilder implements ArticleConsumer {
         // The entity is ready.
         ontology.addEntity(builder.getEntity());
     }
-    
+
     public Ontology getOntology() {
         return ontology;
     }
-   
+
 }
