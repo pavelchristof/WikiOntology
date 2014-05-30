@@ -1,18 +1,15 @@
 package pl.edu.mimuw.wikiontology.pn347193.analysis;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import pl.edu.mimuw.wikiontology.pn347193.Article;
+import pl.edu.mimuw.wikiontology.pn347193.EntityBuilder;
+import pl.edu.mimuw.wikiontology.pn347193.attributes.Templates;
 
 /**
  * Extracts templates (like "{{center}}") from a wiki article.
- *
- * Dependencies: none. 
- * Result: a list of templates.
  */
-public class TemplateExtractor implements Analysis<List<String>> {
+public class TemplateExtractor implements Analysis {
 
     /**
      * Singleton reference of TemplateExtractor.
@@ -36,13 +33,13 @@ public class TemplateExtractor implements Analysis<List<String>> {
     }
 
     @Override
-    public List<String> process(Article article) {
+    public void process(EntityBuilder builder) {
         ArrayList<String> templates = new ArrayList<>();
-        Matcher matcher = pattern.matcher(article.getText());
+        Matcher matcher = pattern.matcher(builder.getArticle().getText());
         while (matcher.find()) {
             templates.add(matcher.group(1));
         }
-        return templates;
+        builder.getEntity().setAttribute(Templates.getInstance(), templates);
     }
 
 }

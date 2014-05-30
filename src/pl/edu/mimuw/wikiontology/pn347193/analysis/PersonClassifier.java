@@ -1,15 +1,16 @@
 package pl.edu.mimuw.wikiontology.pn347193.analysis;
 
 import java.util.Set;
-import pl.edu.mimuw.wikiontology.pn347193.Article;
+import pl.edu.mimuw.wikiontology.pn347193.EntityBuilder;
+import pl.edu.mimuw.wikiontology.pn347193.Identifier;
+import pl.edu.mimuw.wikiontology.pn347193.relations.HasA;
+import pl.edu.mimuw.wikiontology.pn347193.relations.IsA;
+import pl.edu.mimuw.wikiontology.pn347193.relations.IsInCategory;
 
 /**
  * Decides if an article is about a person.
- *
- * Dependencies: CategoryExtractor, PersondataExtractor. 
- * Result: whether the article is about a person.
  */
-public class PersonClassifier implements Analysis<Boolean> {
+public class PersonClassifier implements Analysis {
 
     /**
      * Singleton reference of PersonClassifier.
@@ -32,21 +33,33 @@ public class PersonClassifier implements Analysis<Boolean> {
         searchFor = new String[] {"births", "deaths"};
     }
 
-    @Override
-    public Boolean process(Article article) {
-        Set<String> categories = article.getAnalysisResult(
-            CategoryExtractor.getInstance());
-        for (String category : categories) {
+    private boolean isAPerson(EntityBuilder builder) {
+        // First look for a persondata template.
+        builder.requireAnalysis(PersondataFinder.getInstance());
+        if (builder.getEntity().hasRelation(new HasA(Identifier.PERSONDATA))) {
+            return true;
+        }
+
+        // Search categories.
+        builder.requireAnalysis(CategoryExtractor.getInstance());
+        Set<IsInCategory> categories = builder.getEntity().getRelationsOfClass(
+            IsInCategory.class);
+        for (IsInCategory cat : categories) {
             for (String s : searchFor) {
-                if (category.contains(s)) {
+                if (cat.getTarget().toString().contains(s)) {
                     return true;
                 }
             }
         }
 
-        Boolean hasPersondata = article.getAnalysisResult(PersondataFinder.
-            getInstance());
-        return hasPersondata;
+        return false;
+    }
+
+    @Override
+    public void process(EntityBuilder builder) {
+        if (isAPerson(builder)) {
+            builder.getEntity().addRelation(new IsA(Identifier.PERSON));
+        }
     }
 
 }

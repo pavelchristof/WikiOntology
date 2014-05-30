@@ -1,15 +1,15 @@
 package pl.edu.mimuw.wikiontology.pn347193.analysis;
 
 import java.util.List;
-import pl.edu.mimuw.wikiontology.pn347193.Article;
+import pl.edu.mimuw.wikiontology.pn347193.EntityBuilder;
+import pl.edu.mimuw.wikiontology.pn347193.Identifier;
+import pl.edu.mimuw.wikiontology.pn347193.attributes.Templates;
+import pl.edu.mimuw.wikiontology.pn347193.relations.HasA;
 
 /**
  * Finds Persondata metadata in a wiki article.
- *
- * Dependencies: TemplateExtractor. 
- * Result: whether the article contains a Persondata template.
  */
-public class PersondataFinder implements Analysis<Boolean> {
+public class PersondataFinder implements Analysis {
 
     /**
      * Singleton reference of PersondataExtractor.
@@ -29,9 +29,9 @@ public class PersondataFinder implements Analysis<Boolean> {
     protected PersondataFinder() {
     }
 
-    @Override
-    public Boolean process(Article article) {
-        List<String> templates = article.getAnalysisResult(TemplateExtractor.
+    private boolean hasPersondata(EntityBuilder builder) {
+        builder.requireAnalysis(TemplateExtractor.getInstance());
+        List<String> templates = builder.getEntity().getAttribute(Templates.
             getInstance());
         for (String template : templates) {
             if (template.startsWith("Persondata")) {
@@ -39,6 +39,13 @@ public class PersondataFinder implements Analysis<Boolean> {
             }
         }
         return false;
+    }
+
+    @Override
+    public void process(EntityBuilder builder) {
+        if (hasPersondata(builder)) {
+            builder.getEntity().addRelation(new HasA(Identifier.PERSONDATA));
+        }
     }
 
 }

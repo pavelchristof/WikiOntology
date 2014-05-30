@@ -3,14 +3,15 @@ package pl.edu.mimuw.wikiontology.pn347193.analysis;
 import java.util.HashSet;
 import java.util.Set;
 import pl.edu.mimuw.wikiontology.pn347193.Article;
+import pl.edu.mimuw.wikiontology.pn347193.EntityBuilder;
+import pl.edu.mimuw.wikiontology.pn347193.Identifier;
+import pl.edu.mimuw.wikiontology.pn347193.relations.IsInCategory;
+import pl.edu.mimuw.wikiontology.pn347193.relations.LinksTo;
 
 /**
  * Extracts categories from a wiki article.
- *
- * Dependencies: LinkExtractor. 
- * Result: set of categories that a wiki page belongs to.
  */
-public class CategoryExtractor implements Analysis<Set<String>> {
+public class CategoryExtractor implements Analysis {
 
     /**
      * Singleton reference of CategoryExtractor.
@@ -31,16 +32,19 @@ public class CategoryExtractor implements Analysis<Set<String>> {
     }
 
     @Override
-    public Set<String> process(Article article) {
-        HashSet<String> categories = new HashSet<>();
-        Set<String> links = article.getAnalysisResult(LinkExtractor.
-            getInstance());
-        for (String link : links) {
-            if (link.startsWith("Category:")) {
-                categories.add(link.substring("Category:".length()));
+    public void process(EntityBuilder builder) {
+        builder.requireAnalysis(LinkExtractor.getInstance());
+
+        Set<LinksTo> links = builder.getEntity().getRelationsOfClass(
+            LinksTo.class);
+        for (LinksTo link : links) {
+            String asString = link.getTarget().toString();
+            if (asString.startsWith("Category:")) {
+                Identifier category = new Identifier(asString.substring(
+                    "Category:".length()));
+                builder.getEntity().addRelation(new IsInCategory(category));
             }
         }
-        return categories;
     }
 
 }

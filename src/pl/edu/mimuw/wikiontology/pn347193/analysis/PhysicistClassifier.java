@@ -1,15 +1,15 @@
 package pl.edu.mimuw.wikiontology.pn347193.analysis;
 
 import java.util.Set;
-import pl.edu.mimuw.wikiontology.pn347193.Article;
+import pl.edu.mimuw.wikiontology.pn347193.EntityBuilder;
+import pl.edu.mimuw.wikiontology.pn347193.Identifier;
+import pl.edu.mimuw.wikiontology.pn347193.relations.IsA;
+import pl.edu.mimuw.wikiontology.pn347193.relations.IsInCategory;
 
 /**
  * Decides if an article is about a physicist.
- *
- * Dependencies: CategoryExtractor, PersonClassifier. 
- * Result: whether the article is about a physicist.
  */
-public class PhysicistClassifier implements Analysis<Boolean> {
+public class PhysicistClassifier implements Analysis {
 
     /**
      * Singleton reference of PhysicistClassifier.
@@ -29,23 +29,31 @@ public class PhysicistClassifier implements Analysis<Boolean> {
     protected PhysicistClassifier() {
     }
 
-    @Override
-    public Boolean process(Article article) {
-        boolean isPerson = article.getAnalysisResult(PersonClassifier.
-            getInstance());
-        if (!isPerson) {
+    private boolean isAPhysicist(EntityBuilder builder) {
+        // A physicist must be a person.
+        builder.requireAnalysis(PersonClassifier.getInstance());
+        if (!builder.getEntity().hasRelation(new IsA(Identifier.PERSON))) {
             return false;
         }
 
-        Set<String> categories = article.getAnalysisResult(CategoryExtractor.
-            getInstance());
-        for (String category : categories) {
-            if (category.contains("physicist")) {
+        // Check categories.
+        builder.requireAnalysis(CategoryExtractor.getInstance());
+        Set<IsInCategory> categories = builder.getEntity().getRelationsOfClass(
+            IsInCategory.class);
+        for (IsInCategory cat : categories) {
+            if (cat.getTarget().toString().contains("physicist")) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    @Override
+    public void process(EntityBuilder builder) {
+        if (isAPhysicist(builder)) {
+            builder.getEntity().addRelation(new IsA(Identifier.PHYSICIST));
+        }
     }
 
 }

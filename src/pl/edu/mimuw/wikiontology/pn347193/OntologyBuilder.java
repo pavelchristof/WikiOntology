@@ -4,31 +4,30 @@ import pl.edu.mimuw.wikiontology.pn347193.filters.ArticleFilter;
 import pl.edu.mimuw.wikiontology.pn347193.analysis.Analysis;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * Builds a collection of ontologies from articles.
+ * Builds an ontology from a collection of articles.
  */
-public class OntologyCollectionBuilder implements ArticleConsumer {
+public class OntologyBuilder implements ArticleConsumer {
     
-    private final HashSet<Analysis<?>> analyses;
+    private final HashSet<Analysis> analyses;
     private final HashSet<ArticleFilter> filters;
-    private final ArrayList<Ontology> ontologies;
+    private final ArrayList<Entity> entities;
     private ArticleConsumer filteredArticleConsumer;
 
-    public OntologyCollectionBuilder() {
+    public OntologyBuilder() {
         analyses = new HashSet<>();
         filters = new HashSet<>();
-        ontologies = new ArrayList<>();
+        entities = new ArrayList<>();
         filteredArticleConsumer = null;
     }
     
-    public void addAnalysis(Analysis<?> analysis) {
+    public void addAnalysis(Analysis analysis) {
         analyses.add(analysis);
     }
     
-    public void removeAnalysis(Analysis<?> analysis) {
+    public void removeAnalysis(Analysis analysis) {
         analyses.remove(analysis);
     }
     
@@ -51,9 +50,11 @@ public class OntologyCollectionBuilder implements ArticleConsumer {
 
     @Override
     public void accept(Article article) {
+        EntityBuilder builder = new EntityBuilder(article);
+        
         // First filter the article.
         for (ArticleFilter f : filters) {
-            if (f.filter(article)) {
+            if (f.filter(builder)) {
                 if (filteredArticleConsumer != null) {
                     filteredArticleConsumer.accept(article);
                 }
@@ -61,18 +62,17 @@ public class OntologyCollectionBuilder implements ArticleConsumer {
             }
         }
         
-        // Get all analysis results.
-        HashMap<Analysis<?>, Object> results = new HashMap<>();
-        for (Analysis<?> analysis : analyses) {
-            results.put(analysis, article.getAnalysisResult(analysis));
+        // Require all analyses.
+        for (Analysis analysis : analyses) {
+            builder.requireAnalysis(analysis);
         }
 
-        // Create the ontology.
-        ontologies.add(new Ontology(article.getTitle(), results));
+        // The entity is ready.
+        entities.add(builder.getEntity());
     }
     
-    public Collection<Ontology> build() {
-        return ontologies;
+    public ArrayList<Entity> build() {
+        return entities;
     }
    
 }

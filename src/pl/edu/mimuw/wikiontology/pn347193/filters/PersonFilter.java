@@ -1,11 +1,13 @@
 package pl.edu.mimuw.wikiontology.pn347193.filters;
 
-import pl.edu.mimuw.wikiontology.pn347193.Article;
+import pl.edu.mimuw.wikiontology.pn347193.EntityBuilder;
+import pl.edu.mimuw.wikiontology.pn347193.Identifier;
 import pl.edu.mimuw.wikiontology.pn347193.analysis.PersonClassifier;
+import pl.edu.mimuw.wikiontology.pn347193.relations.IsA;
 
 /**
  * Filters out non-persons.
- * 
+ *
  * Dependencies: PersonClassifier.
  */
 public class PersonFilter implements ArticleFilter {
@@ -24,13 +26,14 @@ public class PersonFilter implements ArticleFilter {
         }
         return instance;
     }
-    
+
     protected PersonFilter() {
     }
-    
+
     @Override
-    public boolean filter(Article article) {
-        return !article.getAnalysisResult(PersonClassifier.getInstance());
+    public boolean filter(EntityBuilder builder) {
+        builder.requireAnalysis(PersonClassifier.getInstance());
+        return !builder.getEntity().hasRelation(new IsA(Identifier.PERSON));
     }
 
 }

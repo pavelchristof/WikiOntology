@@ -1,20 +1,18 @@
 package pl.edu.mimuw.wikiontology.pn347193.analysis;
 
-import pl.edu.mimuw.wikiontology.pn347193.Article;
+import pl.edu.mimuw.wikiontology.pn347193.EntityBuilder;
 
 /**
- * An analysis that can process an article and produce a result.
- * One analysis can depend on others (and use their results).
- * 
- * @param <R> Result type.
+ * An analysis can process an article and modify an entity. It can require other
+ * analysis to be run.
  */
-public interface Analysis<R> {
+public interface Analysis {
 
     /**
-     * Runs this analysis on an article.
-     * @param article the article.
-     * @return the result.
+     * Runs the analysis.
+     *
+     * @param builder the builder
      */
-    R process(Article article);
+    void process(EntityBuilder builder);
 
 }
