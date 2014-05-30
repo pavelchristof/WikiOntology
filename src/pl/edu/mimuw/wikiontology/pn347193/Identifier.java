@@ -23,7 +23,7 @@ public final class Identifier implements Comparable<Identifier> {
      * @param title the article title
      */
     public Identifier(String title) {
-        normalized = title.trim().intern();
+        normalized = title.replace('_', ' ').trim().intern();
         lowerCase = normalized.toLowerCase().intern();
     }
 
