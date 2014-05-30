@@ -3,7 +3,6 @@ package pl.edu.mimuw.wikiontology.pn347193;
 import pl.edu.mimuw.wikiontology.pn347193.filters.ArticleFilter;
 import pl.edu.mimuw.wikiontology.pn347193.analysis.Analysis;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 
 /**
