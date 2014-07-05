@@ -5,7 +5,7 @@ A framework for building ontologies from wiki articles. The library allows you t
 and relations (like "has a" or "is in category"). An analysis is used to extract these informations from an article.
 
 
-Entitiy
+Entity
 =======
 
 An entity is built for each article. The entity contains the article identifier as well as attributes and relations.
@@ -50,7 +50,12 @@ Implemented analyses:
 Importers
 =========
 
-Importers can be used to load articles. Currently there is only one importer - XMLImporter - it loads wikipedia xml files.
+Importers can be used to load articles and feed them to artcile consumers. Currently there is only one importer - XMLImporter - it loads wikipedia xml files.
+
+OntologyBuilder
+===============
+
+OntologyBuilder is an article consumer that builds entities. You can specify which analysis should be run using the addAnalysis/removeAnalysis methods. Additionally you can filter out articles by specifying predicates using the addFilter/removeFilter methods.
 
 Graph
 =====
