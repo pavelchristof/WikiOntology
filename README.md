@@ -37,7 +37,7 @@ A predicate is a function that returns a boolean. Predicates are used to filter 
 Analysis
 ========
 
-An analysis is a function that processes the artcile to define attributes and create relations. To define an analysis you need to implement the Analysis interface. An analysis can depend on other using EntityBuilder's "requireAnalysis" method. EntityBuilder is smart enough to not run the same analysis twice.
+An analysis is a function that processes the article to define attributes and create relations. To define an analysis you need to implement the Analysis interface. An analysis can depend on other using EntityBuilder's "requireAnalysis" method. EntityBuilder is smart enough to not run the same analysis twice.
 
 Implemented analyses:
 * CategoryExtractor - creates IsInCategory relations
