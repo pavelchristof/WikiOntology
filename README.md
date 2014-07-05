@@ -13,7 +13,7 @@ An entity is built for each article. The entity contains the article identifier 
 Attributes
 ==========
 
-To define an attribute you need to implement the Attribute<T> interface, where T is type of the attribute.
+To define an attribute you need to implement the Attribute\<T> interface, where T is type of the attribute.
 
 Implemented attributes:
 * Templates - a list of wikipedia templates.
@@ -50,7 +50,7 @@ Implemented analyses:
 Importers
 =========
 
-Importers can be used to load articles and feed them to artcile consumers. Currently there is only one importer - XMLImporter - it loads wikipedia xml files.
+Importers can be used to load articles and feed them to article consumers. Currently there is only one importer - XMLImporter - it loads wikipedia xml files.
 
 OntologyBuilder
 ===============
